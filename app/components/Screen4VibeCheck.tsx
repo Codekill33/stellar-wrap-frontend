@@ -41,7 +41,7 @@ export function Screen4VibeCheck({ vibes }: Screen4VibeCheckProps) {
   }, [vibes]);
 
   return (
-    <div className="relative w-full h-full overflow-hidden flex" style={{ backgroundColor: 'var(--color-theme-background)' }}>
+    <div className="relative w-full h-full overflow-hidden flex bg-theme-background">
       {/* Dark gradient background */}
       <div className="absolute inset-0 bg-gradient-to-br from-black via-black to-black opacity-60" />
       

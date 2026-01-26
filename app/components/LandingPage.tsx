@@ -15,7 +15,7 @@ export function LandingPage() {
   };
 
   return (
-    <div className="relative w-full min-h-screen h-screen overflow-hidden" style={{ backgroundColor: 'var(--color-theme-background)' }}>
+    <div className="relative w-full min-h-screen h-screen overflow-hidden bg-theme-background">
       {/* Deep space gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/20" />
       
@@ -460,8 +460,7 @@ export function LandingPage() {
                 }}
               />
               
-              <div className="relative px-8 py-4 sm:px-12 sm:py-6 md:px-20 md:py-8 rounded-xl md:rounded-2xl"
-                style={{ backgroundColor: 'var(--color-theme-background)' }}
+              <div className="relative px-8 py-4 sm:px-12 sm:py-6 md:px-20 md:py-8 rounded-xl md:rounded-2xl bg-theme-background"
               >
                 <div className="flex items-center gap-3 sm:gap-4 md:gap-6">
                   <div className="flex flex-col items-start">

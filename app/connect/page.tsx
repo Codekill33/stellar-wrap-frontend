@@ -70,7 +70,7 @@ export default function ConnectPage() {
   };
 
   return (
-    <div className="relative w-full min-h-screen h-screen overflow-hidden flex items-center justify-center" style={{ backgroundColor: 'var(--color-theme-background)' }}>
+    <div className="relative w-full min-h-screen h-screen overflow-hidden flex items-center justify-center bg-theme-background">
       {/* Progress Indicator */}
       <ProgressIndicator 
         currentStep={2} 
