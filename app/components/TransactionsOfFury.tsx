@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { motion, useSpring, useTransform, AnimatePresence } from 'framer-motion';
-import { useWrapperStore } from '../store/wrapperStore';
+import { useWrapStore } from '../store/wrapStore';
 import { StoryShell } from './StoryShell';
 import { Home, Share2, ChevronRight, Palette } from 'lucide-react';
 
@@ -12,7 +12,10 @@ interface MonthlyStats {
 }
 
 const TransactionsOfFury: React.FC = () => {
-  const { totalTransactions, percentile, monthlyStats } = useWrapperStore();
+  const { result } = useWrapStore();
+  const totalTransactions = result?.totalTransactions ?? 0;
+  const percentile = result?.percentile ?? 0;
+  // keep existing mock monthly stats logic for now; could be moved into wrapStore later
   const [isVisible, setIsVisible] = useState(false);
   const [showPercentile, setShowPercentile] = useState(false);
 

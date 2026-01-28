@@ -6,13 +6,7 @@ import confetti from "canvas-confetti";
 import { Home, Share2, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { ProgressIndicator } from "../components/ProgressIndicator";
-
-// --- Mock Store ---
-const useWrapperStore = {
-  data: {
-    archetype: "The Wizard",
-  },
-};
+import { useWrapStore } from "../store/wrapStore";
 
 // --- Asset Mapping ---
 const ARCHETYPE_DATA: Record<string, { description: string }> = {
@@ -145,8 +139,11 @@ export default function ArchetypeReveal(): JSX.Element {
   const shareMenuRef = useRef<HTMLDivElement | null>(null);
   const shareBtnRef = useRef<HTMLButtonElement | null>(null);
 
-  const archetypeKey = useWrapperStore.data.archetype;
-  const data = ARCHETYPE_DATA[archetypeKey] || ARCHETYPE_DATA["The Wizard"];
+  const { result } = useWrapStore();
+  const archetypeKey = result?.persona || "The Wizard";
+  const data = ARCHETYPE_DATA[archetypeKey] || {
+    description: result?.personaDescription || ARCHETYPE_DATA["The Wizard"].description,
+  };
   const displayedDescription = useTypewriter(data.description, 25, 2200);
 
   // click-outside to close share menu

@@ -5,19 +5,71 @@ import { useEffect } from 'react';
 import { Home, ChevronRight } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { ProgressIndicator } from '../components/ProgressIndicator';
+import { useWrapStore } from '../store/wrapStore';
+import { mockData } from '../data/mockData';
 
 export default function LoadingScreen() {
   const router = useRouter();
+  const { address, setStatus, setResult, setError } = useWrapStore();
 
   const handleComplete = () => {
     router.push('/persona');
   };
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      handleComplete();
-    }, 3500);
-    return () => clearTimeout(timer);
+    let isMounted = true;
+
+    const loadWrap = async () => {
+      try {
+        setStatus('loading');
+        setError(null);
+
+        // TODO: replace this with a real API/contract call using `address`
+        // For now we hydrate from mockData to keep the flow working.
+        const result = {
+          username: mockData.username,
+          totalTransactions: mockData.transactions,
+          percentile: mockData.percentile,
+          dapps: mockData.dapps.map((dapp) => ({
+            name: dapp.name,
+            interactions: dapp.transactions,
+            color: dapp.color,
+            gradient: dapp.gradient,
+          })),
+          vibes: mockData.vibes,
+          persona: mockData.persona,
+          personaDescription: mockData.personaDescription,
+        };
+
+        if (!isMounted) return;
+
+        setResult(result);
+        setStatus('ready');
+
+        // small delay for animation before continuing
+        setTimeout(() => {
+          if (isMounted) {
+            handleComplete();
+          }
+        }, 800);
+      } catch (error: any) {
+        if (!isMounted) return;
+        setStatus('error');
+        setError(error?.message || 'Failed to load wrap data');
+        // Fallback: still navigate so user isn’t stuck
+        setTimeout(() => {
+          if (isMounted) {
+            handleComplete();
+          }
+        }, 1200);
+      }
+    };
+
+    loadWrap();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   return (

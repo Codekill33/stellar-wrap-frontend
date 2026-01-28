@@ -3,9 +3,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Share2 } from "lucide-react";
-import { mockData } from '@/app/data/mockData';
 import { ProgressIndicator } from '@/app/components/ProgressIndicator';
 import { ShareCard } from '../components/ShareCard';
+import { useWrapStore } from '@/app/store/wrapStore';
 
 const SocialIcons = {
   X: () => (
@@ -43,11 +43,18 @@ export default function ShareCardPage() {
   const [shareOpen, setShareOpen] = useState<boolean>(false);
   const shareMenuRef = useRef<HTMLDivElement | null>(null);
   const shareBtnRef = useRef<HTMLButtonElement | null>(null);
+  const { result } = useWrapStore();
+
+  const username = result?.username ?? 'stellar_legend';
+  const totalTransactions = result?.totalTransactions ?? 0;
+  const persona = result?.persona ?? 'The Wizard';
+  const topVibeLabel = result?.vibes?.[0]?.label ?? 'DeFi Sorcerer';
+  const topVibePercentage = result?.vibes?.[0]?.percentage ?? 60;
 
   // --- Share Functionality ---
   const handleShare = (platform: string) => {
     const url = window.location.href;
-    const text = `Check out my Stellar Wrapped 2026! ${mockData.transactions} transactions, ${mockData.persona} persona, ${mockData.vibes[0].percentage}% ${mockData.vibes[0].label}! 🎉 #StellarWrapped`;
+    const text = `Check out my Stellar Wrapped 2026! ${totalTransactions} transactions, ${persona} persona, ${topVibePercentage}% ${topVibeLabel}! 🎉 #StellarWrapped`;
     let shareUrl = "";
 
     switch (platform) {
@@ -93,11 +100,11 @@ export default function ShareCardPage() {
   return (
     <div className="relative w-full h-screen">
       <ShareCard 
-        username={mockData.username}
-        transactions={mockData.transactions}
-        persona={mockData.persona}
-        topVibe={mockData.vibes[0].label}
-        vibePercentage={mockData.vibes[0].percentage}
+        username={username}
+        transactions={totalTransactions}
+        persona={persona}
+        topVibe={topVibeLabel}
+        vibePercentage={topVibePercentage}
       />
       
       <ProgressIndicator 
